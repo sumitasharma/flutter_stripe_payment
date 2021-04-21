@@ -27,7 +27,7 @@ class StripePayment {
   }
 
   /// https://tipsi.github.io/tipsi-stripe/docs/usage.html
-  static Future<bool> deviceSupportsNativePay() async {
+  static Future<dynamic> deviceSupportsNativePay() async {
     if (kIsWeb) {
       return false;
     } else {
@@ -42,23 +42,23 @@ class StripePayment {
   }
 
   /// https://tipsi.github.io/tipsi-stripe/docs/canMakeNativePayPayments.html
-  static Future<bool> canMakeNativePayPayments(List<String> networks) async {
+  static Future<dynamic> canMakeNativePayPayments(List<String> networks) async {
     if (kIsWeb) {
       throw UnimplementedError();
     } else {
       if (Platform.isAndroid) {
-        return _channel.invokeMethod('canMakeAndroidPayPayments') as Future<bool>;
+        return _channel.invokeMethod('canMakeAndroidPayPayments');
       } else if (Platform.isIOS) {
         Map<String, dynamic> options = {"networks": networks};
-        return _channel.invokeMethod('canMakeApplePayPayments', options) as Future<bool>;
+        return _channel.invokeMethod('canMakeApplePayPayments', options);
       } else
         throw UnimplementedError();
     }
   }
 
-  static Future<bool> _deviceSupportsAndroidPay() => _channel.invokeMethod("deviceSupportsAndroidPay") as Future<bool>;
+  static Future<dynamic> _deviceSupportsAndroidPay() => _channel.invokeMethod("deviceSupportsAndroidPay");
 
-  static Future<bool> _deviceSupportsApplePay() => _channel.invokeMethod("deviceSupportsApplePay") as Future<bool>;
+  static Future<dynamic> _deviceSupportsApplePay() => _channel.invokeMethod("deviceSupportsApplePay");
 
   /// https://tipsi.github.io/tipsi-stripe/docs/paymentRequestWithNativePay.html
   static Future<Token> paymentRequestWithNativePay(
